@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Schedule extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
     private String title;
     private String description;
     private String author;

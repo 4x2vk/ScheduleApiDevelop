@@ -2,7 +2,6 @@ package org.example.schedule.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.dto.ScheduleGetAllResponse;
-import org.example.schedule.dto.ScheduleGetOneResponse;
 import org.example.schedule.dto.ScheduleSaveRequestDto;
 import org.example.schedule.dto.ScheduleSaveResponseDto;
 import org.example.schedule.entity.Schedule;
@@ -29,7 +28,7 @@ public class ScheduleService {
         );
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new ScheduleSaveResponseDto(
-                savedSchedule.getUserId(),
+                savedSchedule.getId(),
                 savedSchedule.getTitle(),
                 savedSchedule.getDescription(),
                 savedSchedule.getAuthor(),
@@ -45,7 +44,7 @@ public class ScheduleService {
         if (author == null) {
             for (Schedule schedule : schedules) {
                 dtos.add(new ScheduleGetAllResponse(
-                        schedule.getUserId(),
+                        schedule.getId(),
                         schedule.getTitle(),
                         schedule.getDescription(),
                         schedule.getAuthor(),
@@ -59,7 +58,7 @@ public class ScheduleService {
         for (Schedule schedule : schedules) {
                if (author.equals(schedule.getAuthor())) {
                    dtos.add(new ScheduleGetAllResponse(
-                         schedule.getUserId(),
+                         schedule.getId(),
                          schedule.getTitle(),
                          schedule.getDescription(),
                          schedule.getAuthor(),

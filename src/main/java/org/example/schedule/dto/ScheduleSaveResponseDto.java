@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 @Getter
 public class ScheduleSaveResponseDto {
 
-    private final Long userId;
+    private final Long id;
     private final String title;
     private final String description;
     private final String author;
     private final LocalDateTime createdDate;
     private final LocalDateTime updatedDate;
 
-    public ScheduleSaveResponseDto(Long userId, String title, String description, String author, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.userId = userId;
+    public ScheduleSaveResponseDto(Long id, String title, String description, String author, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.author = author;
