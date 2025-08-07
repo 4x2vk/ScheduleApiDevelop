@@ -105,4 +105,16 @@ public class ScheduleService {
                 schedule.getAuthor()
         );
     }
+
+    @Transactional
+    public void delete(long scheduleId, String password) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
+        );
+
+        if (!ObjectUtils.nullSafeEquals(schedule.getPassword(), password)) {
+            throw new IllegalArgumentException("Wrong password");
+        }
+        scheduleRepository.deleteById(scheduleId);
+    }
 }
