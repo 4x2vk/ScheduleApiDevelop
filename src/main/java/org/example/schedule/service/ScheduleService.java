@@ -2,6 +2,7 @@ package org.example.schedule.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.dto.ScheduleGetAllResponse;
+import org.example.schedule.dto.ScheduleGetOneResponse;
 import org.example.schedule.dto.ScheduleSaveRequestDto;
 import org.example.schedule.dto.ScheduleSaveResponseDto;
 import org.example.schedule.entity.Schedule;
@@ -36,6 +37,7 @@ public class ScheduleService {
                 savedSchedule.getModifiedDate()
                 );
     }
+
     @Transactional(readOnly = true)
     public List<ScheduleGetAllResponse> findSchedules(String author) {
         List<Schedule> schedules = scheduleRepository.findAll();
@@ -68,5 +70,20 @@ public class ScheduleService {
                }
            }
         return dtos;
+    }
+
+    @Transactional(readOnly = true)
+    public ScheduleGetOneResponse findSchedule(long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
+        );
+        return new ScheduleGetOneResponse(
+                schedule.getId(),
+                schedule.getTitle(),
+                schedule.getDescription(),
+                schedule.getAuthor(),
+                schedule.getCreatedDate(),
+                schedule.getModifiedDate()
+        );
     }
 }
