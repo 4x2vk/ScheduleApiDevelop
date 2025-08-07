@@ -1,10 +1,7 @@
 package org.example.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.dto.ScheduleGetAllResponse;
-import org.example.schedule.dto.ScheduleGetOneResponse;
-import org.example.schedule.dto.ScheduleSaveRequestDto;
-import org.example.schedule.dto.ScheduleSaveResponseDto;
+import org.example.schedule.dto.*;
 import org.example.schedule.service.ScheduleService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +27,10 @@ public class ScheduleController {
     @GetMapping("/schedules/{scheduleId}")
     public ResponseEntity<ScheduleGetOneResponse> getSchedule(@PathVariable long scheduleId) {
         return ResponseEntity.ok(scheduleService.findSchedule(scheduleId));
+    }
+
+    @PutMapping("/schedules/{scheduleId}")
+    public ResponseEntity<ScheduleUpdateResponse> updateSchedule(@PathVariable long scheduleId, @RequestBody ScheduleUpdateRequest request) {
+        return ResponseEntity.ok(scheduleService.update(scheduleId, request));
     }
 }

@@ -1,14 +1,12 @@
 package org.example.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.dto.ScheduleGetAllResponse;
-import org.example.schedule.dto.ScheduleGetOneResponse;
-import org.example.schedule.dto.ScheduleSaveRequestDto;
-import org.example.schedule.dto.ScheduleSaveResponseDto;
+import org.example.schedule.dto.*;
 import org.example.schedule.entity.Schedule;
 import org.example.schedule.respository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +82,27 @@ public class ScheduleService {
                 schedule.getAuthor(),
                 schedule.getCreatedDate(),
                 schedule.getModifiedDate()
+        );
+    }
+
+    @Transactional
+    public ScheduleUpdateResponse update(long scheduleId, ScheduleUpdateRequest request) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
+                ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
+        );
+
+        if(!ObjectUtils.nullSafeEquals(schedule.getPassword(), request.getPassword())) {
+            throw new IllegalArgumentException("Wrong password");
+        }
+
+        schedule.updateTitleAuthor(
+                request.getTitle(),
+                request.getAuthor()
+        );
+
+        return new ScheduleUpdateResponse(
+                schedule.getTitle(),
+                schedule.getAuthor()
         );
     }
 }
