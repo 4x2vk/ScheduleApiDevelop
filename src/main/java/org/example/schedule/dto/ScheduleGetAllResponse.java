@@ -12,14 +12,14 @@ public class ScheduleGetAllResponse {
     private final String description;
     private final String author;
     private final LocalDateTime createdDate;
-    private final LocalDateTime updatedDate;
+    private final LocalDateTime modifiedDate;
 
-    public ScheduleGetAllResponse(Long userId, String title, String description, String author, LocalDateTime createdDate, LocalDateTime updatedDate) {
+    public ScheduleGetAllResponse(Long userId, String title, String description, String author, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.author = author;
         this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
+        this.modifiedDate = modifiedDate;
     }
 }

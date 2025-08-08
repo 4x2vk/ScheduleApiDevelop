@@ -7,5 +7,4 @@ public class ScheduleUpdateRequest {
 
     private String title;
     private Long userId;
-    private String password;
 }

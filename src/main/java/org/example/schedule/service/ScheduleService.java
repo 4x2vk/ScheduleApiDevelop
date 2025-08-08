@@ -28,8 +28,7 @@ public class ScheduleService {
         Schedule schedule = new Schedule(
                 requestDto.getTitle(),
                 requestDto.getDescription(),
-                user,
-                requestDto.getPassword()
+                user
         );
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
@@ -98,10 +97,6 @@ public class ScheduleService {
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );
 
-        if(!ObjectUtils.nullSafeEquals(schedule.getPassword(), request.getPassword())) {
-            throw new IllegalArgumentException("Wrong password");
-        }
-
         User user = userRepository.findById(request.getUserId())
                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
@@ -117,14 +112,10 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void delete(long scheduleId, String password) {
+    public void delete(long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );
-
-        if (!ObjectUtils.nullSafeEquals(schedule.getPassword(), password)) {
-            throw new IllegalArgumentException("Wrong password");
-        }
         scheduleRepository.deleteById(scheduleId);
     }
 }
