@@ -1,9 +1,6 @@
 package org.example.schedule.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,18 +13,21 @@ public class Schedule extends BaseEntity {
     private Long id;
     private String title;
     private String description;
-    private String author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     private String password;
 
-    public Schedule(String title, String description, String author, String password) {
+    public Schedule(String title, String description, User user, String password) {
         this.title = title;
         this.description = description;
-        this.author = author;
+        this.user = user;
         this.password = password;
     }
 
-    public void updateTitleAuthor(String title, String author) {
+    public void updateTitleAuthor(String title, User user) {
         this.title = title;
-        this.author = author;
+        this.user = user;
     }
 }
