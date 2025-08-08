@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 @Getter
 public class ScheduleGetAllResponse {
 
-    private final Long id;
+    private final Long userId;
     private final String title;
     private final String description;
     private final String author;
     private final LocalDateTime createdDate;
     private final LocalDateTime updatedDate;
 
-    public ScheduleGetAllResponse(Long id, String title, String description, String author, LocalDateTime createdDate, LocalDateTime updatedDate) {
-        this.id = id;
+    public ScheduleGetAllResponse(Long userId, String title, String description, String author, LocalDateTime createdDate, LocalDateTime updatedDate) {
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.author = author;

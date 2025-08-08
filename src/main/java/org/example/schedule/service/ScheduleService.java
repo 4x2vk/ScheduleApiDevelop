@@ -3,7 +3,9 @@ package org.example.schedule.service;
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.dto.*;
 import org.example.schedule.entity.Schedule;
+import org.example.schedule.entity.User;
 import org.example.schedule.respository.ScheduleRepository;
+import org.example.schedule.respository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -16,38 +18,43 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public ScheduleSaveResponseDto saveSchedule(ScheduleSaveRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
         Schedule schedule = new Schedule(
                 requestDto.getTitle(),
                 requestDto.getDescription(),
-                requestDto.getAuthor(),
+                user,
                 requestDto.getPassword()
         );
         Schedule savedSchedule = scheduleRepository.save(schedule);
+
         return new ScheduleSaveResponseDto(
                 savedSchedule.getId(),
                 savedSchedule.getTitle(),
                 savedSchedule.getDescription(),
-                savedSchedule.getAuthor(),
+                savedSchedule.getUser().getUsername(),
                 savedSchedule.getCreatedDate(),
                 savedSchedule.getModifiedDate()
                 );
     }
 
     @Transactional(readOnly = true)
-    public List<ScheduleGetAllResponse> findSchedules(String author) {
+    public List<ScheduleGetAllResponse> findSchedules(Long userId) {
         List<Schedule> schedules = scheduleRepository.findAll();
         List<ScheduleGetAllResponse> dtos = new ArrayList<>();
 
-        if (author == null) {
+        if (userId == null) {
             for (Schedule schedule : schedules) {
                 dtos.add(new ScheduleGetAllResponse(
                         schedule.getId(),
                         schedule.getTitle(),
                         schedule.getDescription(),
-                        schedule.getAuthor(),
+                        schedule.getUser().getUsername(),
                         schedule.getCreatedDate(),
                         schedule.getModifiedDate()
                 ));
@@ -56,12 +63,12 @@ public class ScheduleService {
         }
 
         for (Schedule schedule : schedules) {
-               if (author.equals(schedule.getAuthor())) {
+               if (userId.equals(schedule.getUser().getId())) {
                    dtos.add(new ScheduleGetAllResponse(
                          schedule.getId(),
                          schedule.getTitle(),
                          schedule.getDescription(),
-                         schedule.getAuthor(),
+                         schedule.getUser().getUsername(),
                          schedule.getCreatedDate(),
                          schedule.getModifiedDate()
                    ));
@@ -79,7 +86,7 @@ public class ScheduleService {
                 schedule.getId(),
                 schedule.getTitle(),
                 schedule.getDescription(),
-                schedule.getAuthor(),
+                schedule.getUser().getUsername(),
                 schedule.getCreatedDate(),
                 schedule.getModifiedDate()
         );
@@ -95,14 +102,17 @@ public class ScheduleService {
             throw new IllegalArgumentException("Wrong password");
         }
 
+        User user = userRepository.findById(request.getUserId())
+                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
         schedule.updateTitleAuthor(
                 request.getTitle(),
-                request.getAuthor()
+                user
         );
 
         return new ScheduleUpdateResponse(
                 schedule.getTitle(),
-                schedule.getAuthor()
+                schedule.getUser().getId()
         );
     }
 

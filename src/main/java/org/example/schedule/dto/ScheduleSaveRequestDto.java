@@ -7,6 +7,6 @@ public class ScheduleSaveRequestDto {
 
     private String title;
     private String description;
-    private String author;
+    private Long userId;
     private String password;
 }

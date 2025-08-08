@@ -6,10 +6,10 @@ import lombok.Getter;
 public class ScheduleUpdateResponse {
 
     private final String title;
-    private final String author;
+    private final Long userId;
 
-    public ScheduleUpdateResponse(String title, String author) {
+    public ScheduleUpdateResponse(String title, Long userId) {
         this.title = title;
-        this.author = author;
+        this.userId = userId;
     }
 }
