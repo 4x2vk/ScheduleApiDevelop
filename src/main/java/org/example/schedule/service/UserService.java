@@ -1,9 +1,7 @@
 package org.example.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.dto.UserGetAllResponse;
-import org.example.schedule.dto.UserSaveRequest;
-import org.example.schedule.dto.UserSaveResponse;
+import org.example.schedule.dto.*;
 import org.example.schedule.entity.User;
 import org.example.schedule.respository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -64,5 +62,18 @@ public class UserService {
             }
         }
         return dtos;
+    }
+
+    @Transactional
+    public UserUpdateResponse update(long userId, UserUpdateRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("User with id " + userId + " not found")
+        );
+
+        user.updateUsernameEmail(request.getUsername(), request.getEmail());
+        return new UserUpdateResponse(
+                user.getUsername(),
+                user.getEmail()
+        );
     }
 }

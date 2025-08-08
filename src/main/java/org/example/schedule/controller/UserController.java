@@ -1,9 +1,8 @@
 package org.example.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.dto.UserGetAllResponse;
-import org.example.schedule.dto.UserSaveRequest;
-import org.example.schedule.dto.UserSaveResponse;
+import org.apache.coyote.Response;
+import org.example.schedule.dto.*;
 import org.example.schedule.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +23,10 @@ public class UserController {
     @GetMapping("/users")
     public ResponseEntity<List<UserGetAllResponse>> getUsers(@RequestParam(required = false) String username) {
         return ResponseEntity.ok(userService.findUsers(username));
+    }
+
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<UserUpdateResponse> updateUser(@PathVariable long userId, @RequestBody UserUpdateRequest request) {
+        return ResponseEntity.ok(userService.update(userId, request));
     }
 }
