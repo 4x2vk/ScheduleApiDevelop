@@ -76,4 +76,12 @@ public class UserService {
                 user.getEmail()
         );
     }
+
+    @Transactional
+    public void delete(long userId) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new IllegalArgumentException("User with id " + userId + " not found")
+        );
+        userRepository.deleteById(userId);
+    }
 }
