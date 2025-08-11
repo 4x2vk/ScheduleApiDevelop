@@ -1,8 +1,9 @@
-package org.example.schedule.entity;
+package org.example.schedule.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.schedule.common.entity.BaseEntity;
 
 @Entity
 @Getter

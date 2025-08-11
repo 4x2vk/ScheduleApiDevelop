@@ -1,11 +1,11 @@
-package org.example.schedule.dto;
+package org.example.schedule.user.dto;
 
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class UserSaveResponse {
+public class UserGetAllResponse {
 
     private final Long id;
     private final String username;
@@ -13,7 +13,7 @@ public class UserSaveResponse {
     private final LocalDateTime createdDate;
     private final LocalDateTime modifiedDate;
 
-    public UserSaveResponse(Long id, String username, String email, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public UserGetAllResponse(Long id, String username, String email, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.username = username;
         this.email = email;

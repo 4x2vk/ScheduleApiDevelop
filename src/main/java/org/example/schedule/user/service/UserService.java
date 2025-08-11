@@ -1,9 +1,9 @@
-package org.example.schedule.service;
+package org.example.schedule.user.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.dto.*;
-import org.example.schedule.entity.User;
-import org.example.schedule.respository.UserRepository;
+import org.example.schedule.user.dto.*;
+import org.example.schedule.user.entity.User;
+import org.example.schedule.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

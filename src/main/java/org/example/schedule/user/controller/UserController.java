@@ -1,9 +1,8 @@
-package org.example.schedule.controller;
+package org.example.schedule.user.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.example.schedule.dto.*;
-import org.example.schedule.service.UserService;
+import org.example.schedule.user.dto.*;
+import org.example.schedule.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

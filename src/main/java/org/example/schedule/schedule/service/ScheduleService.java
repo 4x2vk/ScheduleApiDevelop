@@ -1,14 +1,13 @@
-package org.example.schedule.service;
+package org.example.schedule.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.dto.*;
-import org.example.schedule.entity.Schedule;
-import org.example.schedule.entity.User;
-import org.example.schedule.respository.ScheduleRepository;
-import org.example.schedule.respository.UserRepository;
+import org.example.schedule.schedule.dto.*;
+import org.example.schedule.schedule.entity.Schedule;
+import org.example.schedule.user.entity.User;
+import org.example.schedule.schedule.repository.ScheduleRepository;
+import org.example.schedule.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
