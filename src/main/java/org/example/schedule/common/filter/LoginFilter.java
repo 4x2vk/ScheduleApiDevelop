@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.example.schedule.common.session.SessionConst;
 import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
@@ -13,8 +12,6 @@ import java.io.IOException;
 @Slf4j
 public class LoginFilter implements Filter {
     private static final String[] WHITE_LIST = {"/", "/users/signup", "/users/login"};
-
-    public static final String LOGIN_USER = "LOGIN_USER";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -27,7 +24,7 @@ public class LoginFilter implements Filter {
         // 화이트리스트에 포함되지 않은 경우, 로그인 여부 확인
         if (!isWhiteList(requestURI)) {
             HttpSession session = httpRequest.getSession(false);
-            if (session == null || session.getAttribute(SessionConst.LOGIN_USER) == null) {
+            if (session == null || session.getAttribute("LOGIN_USER") == null) {
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인 해주세요.");
                 return;
             }
