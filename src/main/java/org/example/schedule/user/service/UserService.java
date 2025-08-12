@@ -96,6 +96,11 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Long handleLogin(LoginRequest request) {
+
+        if (request.getPassword() == null) {
+            throw new InvalidCredentialException("Password must be provided");
+        }
+
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new InvalidCredentialException("Unknown email"));
 
