@@ -1,11 +1,13 @@
 package org.example.schedule.user.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.schedule.common.exception.InvalidCredentialException;
 import org.example.schedule.user.dto.*;
 import org.example.schedule.user.entity.User;
 import org.example.schedule.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,10 @@ public class UserService {
 
     @Transactional
     public UserSaveResponse saveUser(UserSaveRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("Email already exists");
+        }
+
         User user = new User(
                 request.getUsername(),
                 request.getEmail(),
@@ -74,7 +80,9 @@ public class UserService {
         user.updateUsernameEmail(request.getUsername(), request.getEmail());
         return new UserUpdateResponse(
                 user.getUsername(),
-                user.getEmail()
+                user.getEmail(),
+                user.getCreatedDate(),
+                user.getModifiedDate()
         );
     }
 
@@ -84,5 +92,16 @@ public class UserService {
                 () -> new IllegalArgumentException("User with id " + userId + " not found")
         );
         userRepository.deleteById(userId);
+    }
+
+    @Transactional(readOnly = true)
+    public Long handleLogin(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new InvalidCredentialException("Unknown email"));
+
+        if(request.getPassword() != null && !ObjectUtils.nullSafeEquals(user.getPassword(), request.getPassword())) {
+            throw new InvalidCredentialException("Password mismatch");
+        }
+        return user.getId();
     }
 }
