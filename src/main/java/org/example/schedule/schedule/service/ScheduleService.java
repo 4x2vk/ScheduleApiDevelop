@@ -20,8 +20,8 @@ public class ScheduleService {
     private final UserRepository userRepository;
 
     @Transactional
-    public ScheduleSaveResponseDto saveSchedule(ScheduleSaveRequestDto requestDto) {
-        User user = userRepository.findById(requestDto.getUserId())
+    public ScheduleSaveResponseDto saveSchedule(Long userId, ScheduleSaveRequestDto requestDto) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Schedule schedule = new Schedule(
@@ -33,9 +33,9 @@ public class ScheduleService {
 
         return new ScheduleSaveResponseDto(
                 savedSchedule.getId(),
+                user.getId(),
                 savedSchedule.getTitle(),
                 savedSchedule.getDescription(),
-                savedSchedule.getUser().getUsername(),
                 savedSchedule.getCreatedDate(),
                 savedSchedule.getModifiedDate()
                 );
@@ -76,9 +76,9 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleGetOneResponse findSchedule(long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
+    public ScheduleGetOneResponse findSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("Schedule id " + id + " not found")
         );
         return new ScheduleGetOneResponse(
                 schedule.getId(),
@@ -91,17 +91,18 @@ public class ScheduleService {
     }
 
     @Transactional
-    public ScheduleUpdateResponse update(long scheduleId, ScheduleUpdateRequest request) {
+    public ScheduleUpdateResponse update(Long scheduleId, Long userId, ScheduleUpdateRequest request) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );
 
-        User user = userRepository.findById(request.getUserId())
-                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        if (userId.equals(schedule.getUser().getId())) {
+            throw new IllegalArgumentException("You can change only yours schedule");
+        }
 
         schedule.updateTitleAuthor(
                 request.getTitle(),
-                user
+                request.getDescription()
         );
 
         return new ScheduleUpdateResponse(
@@ -111,7 +112,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void delete(long scheduleId) {
+    public void delete(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );

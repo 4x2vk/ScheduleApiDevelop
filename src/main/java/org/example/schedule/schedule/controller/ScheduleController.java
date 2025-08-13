@@ -1,6 +1,7 @@
 package org.example.schedule.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.schedule.common.session.SessionConst;
 import org.example.schedule.schedule.dto.*;
 import org.example.schedule.schedule.service.ScheduleService;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,8 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ResponseEntity<ScheduleSaveResponseDto> saveSchedule(@RequestBody ScheduleSaveRequestDto requestDto) {
-        return ResponseEntity.ok(scheduleService.saveSchedule(requestDto));
+    public ResponseEntity<ScheduleSaveResponseDto> saveSchedule(@SessionAttribute(name = SessionConst.LOGIN_USER) Long userId, @RequestBody ScheduleSaveRequestDto requestDto) {
+        return ResponseEntity.ok(scheduleService.saveSchedule(userId, requestDto));
     }
 
     @GetMapping("/schedules")
@@ -25,13 +26,13 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedules/{scheduleId}")
-    public ResponseEntity<ScheduleGetOneResponse> getSchedule(@PathVariable long scheduleId) {
-        return ResponseEntity.ok(scheduleService.findSchedule(scheduleId));
+    public ResponseEntity<ScheduleGetOneResponse> getSchedule(@PathVariable Long id) {
+        return ResponseEntity.ok(scheduleService.findSchedule(id));
     }
 
     @PutMapping("/schedules/{scheduleId}")
-    public ResponseEntity<ScheduleUpdateResponse> updateSchedule(@PathVariable long scheduleId, @RequestBody ScheduleUpdateRequest request) {
-        return ResponseEntity.ok(scheduleService.update(scheduleId, request));
+    public ResponseEntity<ScheduleUpdateResponse> updateSchedule(@SessionAttribute(name = SessionConst.LOGIN_USER) Long userId, @PathVariable Long id, @RequestBody ScheduleUpdateRequest request) {
+        return ResponseEntity.ok(scheduleService.update(id, userId, request));
     }
 
     @DeleteMapping("/schedules/{scheduleId}")
