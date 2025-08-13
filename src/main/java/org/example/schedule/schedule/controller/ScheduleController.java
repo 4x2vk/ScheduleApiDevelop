@@ -2,6 +2,7 @@ package org.example.schedule.schedule.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.common.session.SessionConst;
 import org.example.schedule.schedule.dto.*;
@@ -39,7 +40,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedules/{id}")
-    public ResponseEntity<ScheduleUpdateResponse> updateSchedule(@SessionAttribute(name = SessionConst.LOGIN_USER) Long userId, @PathVariable Long id, @RequestBody ScheduleUpdateRequest request) {
+    public ResponseEntity<ScheduleUpdateResponse> updateSchedule(@Valid @SessionAttribute(name = SessionConst.LOGIN_USER) Long userId, @PathVariable Long id, @RequestBody ScheduleUpdateRequest request) {
         return ResponseEntity.ok(scheduleService.update(id, userId, request));
     }
 
