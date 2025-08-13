@@ -1,5 +1,6 @@
 package org.example.schedule.user.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.common.filter.LoginFilter;
 import org.example.schedule.common.session.SessionConst;
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users/signup")
-    public ResponseEntity<UserSaveResponse> signUp(@RequestBody UserSaveRequest userSaveRequest) {
+    public ResponseEntity<UserSaveResponse> signUp(@Valid @RequestBody UserSaveRequest userSaveRequest) {
         return ResponseEntity.ok(userService.saveUser(userSaveRequest));
     }
 

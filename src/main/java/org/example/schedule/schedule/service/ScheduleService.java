@@ -96,7 +96,7 @@ public class ScheduleService {
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );
 
-        if (userId.equals(schedule.getUser().getId())) {
+        if (!userId.equals(schedule.getUser().getId())) {
             throw new IllegalArgumentException("You can change only yours schedule");
         }
 
@@ -112,10 +112,13 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void delete(Long scheduleId) {
+    public void delete(Long scheduleId, Long userId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );
+        if (!userId.equals(schedule.getUser().getId())) {
+            throw new IllegalArgumentException("You can delete only yours schedule");
+        }
         scheduleRepository.deleteById(scheduleId);
     }
 }
