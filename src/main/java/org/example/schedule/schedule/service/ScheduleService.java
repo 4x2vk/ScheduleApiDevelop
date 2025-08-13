@@ -50,9 +50,9 @@ public class ScheduleService {
             for (Schedule schedule : schedules) {
                 dtos.add(new ScheduleGetAllResponse(
                         schedule.getId(),
+                        schedule.getUser().getId(),
                         schedule.getTitle(),
                         schedule.getDescription(),
-                        schedule.getUser().getUsername(),
                         schedule.getCreatedDate(),
                         schedule.getModifiedDate()
                 ));
@@ -64,9 +64,9 @@ public class ScheduleService {
                if (userId.equals(schedule.getUser().getId())) {
                    dtos.add(new ScheduleGetAllResponse(
                          schedule.getId(),
+                         schedule.getUser().getId(),
                          schedule.getTitle(),
                          schedule.getDescription(),
-                         schedule.getUser().getUsername(),
                          schedule.getCreatedDate(),
                          schedule.getModifiedDate()
                    ));
@@ -82,9 +82,9 @@ public class ScheduleService {
         );
         return new ScheduleGetOneResponse(
                 schedule.getId(),
+                schedule.getUser().getId(),
                 schedule.getTitle(),
                 schedule.getDescription(),
-                schedule.getUser().getUsername(),
                 schedule.getCreatedDate(),
                 schedule.getModifiedDate()
         );
@@ -106,8 +106,12 @@ public class ScheduleService {
         );
 
         return new ScheduleUpdateResponse(
+                schedule.getId(),
+                schedule.getUser().getId(),
                 schedule.getTitle(),
-                schedule.getUser().getId()
+                schedule.getDescription(),
+                schedule.getCreatedDate(),
+                schedule.getModifiedDate()
         );
     }
 

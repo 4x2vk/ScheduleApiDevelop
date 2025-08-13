@@ -81,6 +81,7 @@ public class UserService {
 
         user.updateUsernameEmail(request.getUsername(), request.getEmail());
         return new UserUpdateResponse(
+                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getCreatedDate(),
