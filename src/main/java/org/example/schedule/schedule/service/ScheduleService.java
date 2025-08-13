@@ -96,7 +96,7 @@ public class ScheduleService {
                 ()-> new IllegalArgumentException("Schedule id " + scheduleId + " not found")
         );
 
-        if (userId.equals(schedule.getUser().getId())) {
+        if (!userId.equals(schedule.getUser().getId())) {
             throw new IllegalArgumentException("You can change only yours schedule");
         }
 

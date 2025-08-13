@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ScheduleSaveRequestDto {
 
     @NotBlank(message = "title is required")
-    @Size(max = 5, message = "at least 5 symbols")
+    @Size(max = 5, message = "max 5 symbols")
     private String title;
 
     @NotBlank(message = "description is required")

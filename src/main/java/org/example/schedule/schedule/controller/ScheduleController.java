@@ -1,9 +1,12 @@
 package org.example.schedule.schedule.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.common.session.SessionConst;
 import org.example.schedule.schedule.dto.*;
 import org.example.schedule.schedule.service.ScheduleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +19,12 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/schedules")
-    public ResponseEntity<ScheduleSaveResponseDto> saveSchedule(@SessionAttribute(name = SessionConst.LOGIN_USER) Long userId, @RequestBody ScheduleSaveRequestDto requestDto) {
+    public ResponseEntity<ScheduleSaveResponseDto> saveSchedule(HttpServletRequest request, @RequestBody ScheduleSaveRequestDto requestDto) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute(SessionConst.LOGIN_USER) == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userId = (Long) session.getAttribute(SessionConst.LOGIN_USER);
         return ResponseEntity.ok(scheduleService.saveSchedule(userId, requestDto));
     }
 

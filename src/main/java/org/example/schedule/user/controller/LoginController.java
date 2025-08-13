@@ -26,7 +26,7 @@ public class LoginController {
         return ResponseEntity.ok("success");
     }
 
-    @PostMapping("/users/logout")
+    @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
