@@ -81,6 +81,7 @@ public class UserService {
 
         user.updateUsernameEmail(request.getUsername(), request.getEmail());
         return new UserUpdateResponse(
+                user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getCreatedDate(),
@@ -90,9 +91,6 @@ public class UserService {
 
     @Transactional
     public void delete(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("User with id " + userId + " not found")
-        );
         userRepository.deleteById(userId);
     }
 
