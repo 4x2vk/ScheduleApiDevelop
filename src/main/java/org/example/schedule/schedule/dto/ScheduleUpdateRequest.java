@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ScheduleUpdateRequest {
 
     @NotBlank(message = "title is required")
-    @Size(max = 5, message = "at least 5 symbols")
+    @Size(min = 5, message = "at least 5 symbols")
     private String title;
 
     @NotBlank(message = "description is required")
