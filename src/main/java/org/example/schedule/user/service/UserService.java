@@ -5,6 +5,7 @@ import org.example.schedule.common.exception.InvalidCredentialException;
 import org.example.schedule.user.dto.*;
 import org.example.schedule.user.entity.User;
 import org.example.schedule.user.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public UserSaveResponse saveUser(UserSaveRequest request) {
@@ -27,7 +29,7 @@ public class UserService {
         User user = new User(
                 request.getUsername(),
                 request.getEmail(),
-                request.getPassword()
+                passwordEncoder.encode(request.getPassword())
         );
         User savedUser = userRepository.save(user);
         return new UserSaveResponse(
@@ -104,7 +106,7 @@ public class UserService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new InvalidCredentialException("Unknown email"));
 
-        if(request.getPassword() != null && !ObjectUtils.nullSafeEquals(user.getPassword(), request.getPassword())) {
+        if(!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new InvalidCredentialException("Password mismatch");
         }
         return user.getId();
