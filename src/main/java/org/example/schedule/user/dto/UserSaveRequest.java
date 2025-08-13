@@ -8,6 +8,10 @@ import lombok.Getter;
 @Getter
 public class UserSaveRequest {
 
+    @NotBlank(message = "username is required")
+    @Size(min = 4, message = "username at least 4 symbols")
+    private String username;
+
     @NotBlank(message = "email required")
     @Email(message = "input valid email")
     private String email;
