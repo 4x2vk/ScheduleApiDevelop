@@ -2,6 +2,7 @@ package org.example.schedule.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.schedule.user.dto.LoginRequest;
 import org.example.schedule.user.service.UserService;
@@ -17,7 +18,7 @@ public class LoginController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<String> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
 
         Long userId = userService.handleLogin(request);
 
@@ -26,6 +27,7 @@ public class LoginController {
 
         return ResponseEntity.ok("success");
     }
+
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
