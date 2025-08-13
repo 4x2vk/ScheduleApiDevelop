@@ -12,6 +12,6 @@ public class ScheduleUpdateRequest {
     private String title;
 
     @NotBlank(message = "description is required")
-    @Size(max = 5, message = "at least 5 symbols")
+    @Size(max = 255, message = "max 255 symbols")
     private String description;
 }
