@@ -90,4 +90,14 @@ public class CommentService {
                 comment.getCreatedDate(),
                 comment.getModifiedDate());
     }
+
+    @Transactional
+    public void delete(Long commentId, Long userId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("Comment Id " + commentId + " not found."));
+        if (!comment.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("You can able to delete only own comments.");
+        }
+        commentRepository.delete(comment);
+    }
 }
