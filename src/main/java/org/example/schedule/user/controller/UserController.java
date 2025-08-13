@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.schedule.common.filter.LoginFilter;
 import org.example.schedule.common.session.SessionConst;
 import org.example.schedule.user.dto.*;
 import org.example.schedule.user.service.UserService;
@@ -30,7 +29,7 @@ public class UserController {
         return ResponseEntity.ok(userService.findUsers(username));
     }
 
-    @PutMapping("/users/{userId}")
+    @PutMapping("/users/me")
     public ResponseEntity<UserUpdateResponse> updateUser(@SessionAttribute(name = SessionConst.LOGIN_USER) long userId, @RequestBody UserUpdateRequest request) {
         return ResponseEntity.ok(userService.update(userId, request));
     }
