@@ -6,7 +6,6 @@ import org.example.schedule.comments.dto.CommentSaveRequest;
 import org.example.schedule.comments.dto.CommentUpdateRequest;
 import org.example.schedule.comments.entity.Comment;
 import org.example.schedule.comments.repository.CommentRepository;
-import org.example.schedule.schedule.dto.ScheduleGetOneResponse;
 import org.example.schedule.schedule.entity.Schedule;
 import org.example.schedule.schedule.repository.ScheduleRepository;
 import org.example.schedule.user.entity.User;
@@ -47,7 +46,7 @@ public class CommentService {
 
     @Transactional(readOnly = true)
     public List<CommentResponse> findScheduleComments(Long scheduleId) {
-        List<Comment> comments = commentRepository.findSchedule(scheduleId);
+        List<Comment> comments = commentRepository.findByScheduleId(scheduleId);
         return comments.stream()
                 .map(comment -> new CommentResponse(
                         comment.getId(),
