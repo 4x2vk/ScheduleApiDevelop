@@ -60,17 +60,17 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public ScheduleGetOneResponse findCommentById(Long id) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                ()-> new IllegalArgumentException("Schedule id " + id + " not found")
-        );
-        return new ScheduleGetOneResponse(
-                schedule.getId(),
-                schedule.getUser().getId(),
-                schedule.getTitle(),
-                schedule.getDescription(),
-                schedule.getCreatedDate(),
-                schedule.getModifiedDate()
+    public CommentResponse findCommentById(Long id) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Comment Id " + id + " not found.")
+                );
+        return new CommentResponse(
+                comment.getId(),
+                comment.getUser().getId(),
+                comment.getSchedule().getId(),
+                comment.getComment(),
+                comment.getCreatedDate(),
+                comment.getModifiedDate()
         );
     }
 
