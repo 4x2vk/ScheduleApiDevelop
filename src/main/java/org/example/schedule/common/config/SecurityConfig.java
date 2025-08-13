@@ -21,7 +21,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable) // Postman 테스트에 대한 CSRF 비활성화
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/signup").permitAll() // 등록 허용
+                        .requestMatchers("/", "/users/signup", "/login", "/users/logout").permitAll() // 등록 허용
                         .anyRequest().authenticated() // 나머지는 승인이 필요합니다
                 );
         return http.build();

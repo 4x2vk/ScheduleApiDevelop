@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.schedule.user.dto.LoginRequest;
 import org.example.schedule.user.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +26,7 @@ public class LoginController {
         return ResponseEntity.ok("success");
     }
 
-
-    @PostMapping("/logout")
+    @PostMapping("/users/logout")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
