@@ -19,6 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
+    // 회원가입 요청 처리
     @PostMapping("/users/signup")
     public ResponseEntity<UserSaveResponse> signUp(@Valid @RequestBody UserSaveRequest userSaveRequest) {
         return ResponseEntity.ok(userService.saveUser(userSaveRequest));
@@ -29,11 +30,13 @@ public class UserController {
         return ResponseEntity.ok(userService.findUsers(username));
     }
 
+    // 사용자 정보 수정
     @PutMapping("/users/me")
     public ResponseEntity<UserUpdateResponse> updateUser(@SessionAttribute(name = SessionConst.LOGIN_USER) long userId, @RequestBody UserUpdateRequest request) {
         return ResponseEntity.ok(userService.update(userId, request));
     }
 
+    // 사용자 삭제
     @DeleteMapping("/users/me")
     public ResponseEntity<Void> deleteUser(HttpServletRequest request) {
         HttpSession session = request.getSession(false);

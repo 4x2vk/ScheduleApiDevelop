@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+// 스프링 설정 클래스임을 나타냄
 @Configuration
 public class SecurityConfig {
 
+    // BCryptPasswordEncoder를 빈으로 등록하여 주입받아 사용 가능하게 함
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

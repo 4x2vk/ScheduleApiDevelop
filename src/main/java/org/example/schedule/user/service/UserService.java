@@ -8,7 +8,6 @@ import org.example.schedule.user.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    // 회원가입 로직
     @Transactional
     public UserSaveResponse saveUser(UserSaveRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {

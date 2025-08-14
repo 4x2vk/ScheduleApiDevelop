@@ -5,9 +5,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+// 스프링 설정 클래스임을 나타냄
 @Configuration
 public class FilterConfig {
 
+    // LoginFilter를 빈으로 등록
     @Bean
     public FilterRegistrationBean<Filter> loginFilter() {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
